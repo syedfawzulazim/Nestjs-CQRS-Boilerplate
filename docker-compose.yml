@@ -1,0 +1,47 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    command: yarn run start:dev --debug 0.0.0.0:9229
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/app/src
+      - ./swagger.json:/app/swagger.json
+      - ./migration:/app/migration
+    depends_on:
+      - db
+ 
+  db:
+    image: mariadb:10.6 
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+    volumes:
+      - .docker/volumes/mariadb/data:/var/lib/mysql 
+  
+  admin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8081:80"
+    links:
+      - db:${DATABASE_HOST}
+    environment:
+      DATABASE_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      PMA_HOST: ${DATABASE_HOST}
+      PMA_PORT: 3306
+    depends_on:
+      - db
+#    profiles:
+#      - debug
+
+

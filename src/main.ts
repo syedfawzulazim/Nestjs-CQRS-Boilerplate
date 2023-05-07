@@ -9,12 +9,12 @@ async function bootstrap(): Promise<INestApplication> {
   const logger = new Logger('boostrap');
   const app = await NestFactory.create(AppModule);
   // app.setGlobalPrefix('api/products/v1');
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     transform: true,
-  //     whitelist: true,
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Products-Service')

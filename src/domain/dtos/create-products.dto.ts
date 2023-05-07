@@ -1,4 +1,3 @@
-import { Products } from '../models/products.model';
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateProductsDto {
@@ -13,10 +12,4 @@ export class CreateProductsDto {
   @IsNumber()
   @IsNotEmpty()
   price: number;
-
-  constructor(props: Products) {
-    this.title = props.title;
-    this.description = props.description;
-    this.price = props.price;
-  }
 }

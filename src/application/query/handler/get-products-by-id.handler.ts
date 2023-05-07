@@ -16,7 +16,7 @@ export class GetProductsByIdHandler
   ) {}
 
   async execute(query: GetProductsByIdQuery): Promise<Products> {
-    const product = await this.productsRepository.find(query.id);
+    const product = await this.productsRepository.findOne(query.id);
     return product;
   }
 }

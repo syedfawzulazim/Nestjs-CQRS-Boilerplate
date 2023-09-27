@@ -18,7 +18,7 @@ export class Products extends AggregateRoot {
     this.id = props.id;
     this.title = props.title;
     this.description = props.description;
-    this.price = props.price;;
+    this.price = props.price;
   }
 }
 

@@ -1,9 +1,9 @@
-import { Products } from '@src/domain/models/products.model';
 import { GetProductsByIdQuery } from '@src/application/query/get-products-by-id.query';
 import { Inject, Injectable } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { IProductsRepository } from '@src/domain/ports/out/products.repository.interface';
 import { PRODUCT_REPOSITORY_TOKEN } from '@src/infrastructure/providers/products.repository.provider';
+import { ProductsRespondDto } from "@src/domain/dtos/products-responde.dto";
 
 @Injectable()
 @QueryHandler(GetProductsByIdQuery)
@@ -15,8 +15,8 @@ export class GetProductsByIdHandler
     private readonly productsRepository: IProductsRepository,
   ) {}
 
-  async execute(query: GetProductsByIdQuery): Promise<Products> {
+  async execute(query: GetProductsByIdQuery): Promise<ProductsRespondDto> {
     const product = await this.productsRepository.findOne(query.id);
-    return product;
+    return new ProductsRespondDto(product);
   }
 }

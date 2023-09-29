@@ -36,7 +36,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Products"
                                 }
                             }
                         }
@@ -63,7 +63,45 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CreateProductsDto"
+                                    "$ref": "#/components/schemas/ProductsRespondDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/update/{id}": {
+            "put": {
+                "operationId": "ProductsController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Update products",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -90,6 +128,29 @@
         },
         "schemas": {
             "CreateProductsDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "title",
+                    "description",
+                    "price"
+                ]
+            },
+            "Products": {
+                "type": "object",
+                "properties": {}
+            },
+            "ProductsRespondDto": {
                 "type": "object",
                 "properties": {
                     "title": {

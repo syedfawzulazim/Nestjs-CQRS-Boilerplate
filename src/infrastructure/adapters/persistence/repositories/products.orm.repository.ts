@@ -2,12 +2,13 @@ import { ProductsEntity } from '@src/infrastructure/adapters/persistence/entitie
 import { IProductsRepository } from '@src/domain/ports/out/products.repository.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { CreateProductsDto } from '@src/domain/dtos';
+import { CreateProductsDto, UpdateProductsDto } from "@src/domain/dtos";
 import { Products } from '@src/domain/models/products.model';
 
 @Injectable()
 export class ProductsOrmRepository implements IProductsRepository {
   constructor(private readonly manager: EntityManager) {}
+
   async create(createProductsDto: CreateProductsDto): Promise<Products> {
     const productEntity = await this.manager.save<ProductsEntity>(
       this.manager.create<ProductsEntity>(
@@ -17,8 +18,17 @@ export class ProductsOrmRepository implements IProductsRepository {
     );
     return productEntity.toModel();
   }
-  async find(id: string): Promise<Products> {
+
+  async findOne(id: string): Promise<Products> {
     const productsEntity = await this.manager.findOne(ProductsEntity, id);
     return productsEntity.toModel();
+  }
+
+  async update(product: Products, updateProductsDto: UpdateProductsDto): Promise<void> {
+   await this.manager.update<ProductsEntity>(
+     ProductsEntity,
+     product.id,
+     ProductsEntity.fromModel(updateProductsDto),
+    );
   }
 }

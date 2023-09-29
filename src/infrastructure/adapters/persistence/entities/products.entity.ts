@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CreateProductsDto } from '@src/domain/dtos';
+import { CreateProductsDto, UpdateProductsDto } from "@src/domain/dtos";
 
 /* In TypeORM we can use both the Active Record and Data Mapper patterns.
    Using the Data Mapper approach, you define all your query methods in separate classes called "repositories", and you save, remove, and load objects using repositories.
@@ -30,7 +30,7 @@ export class ProductsEntity {
   @Column({ name: 'price' })
   price: number;
 
-  static fromModel(model: CreateProductsDto): ProductsEntity {
+  static fromModel(model: CreateProductsDto | UpdateProductsDto): ProductsEntity {
     const entity = new ProductsEntity();
     entity.title = model.title;
     entity.description = model.description;

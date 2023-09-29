@@ -1,7 +1,6 @@
-import { IViewModel } from '@src/domain/interfaces';
 import { Products } from '@src/domain/models/products.model';
 import { CreateProductsDto } from '@src/domain/dtos/create-products.dto';
-import { Controller, Get, Param, Post, Req, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, Body, Put } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   ApiBody,
@@ -13,6 +12,9 @@ import {
 import { Request, Response } from 'express';
 import { GetProductsByIdQuery } from '@src/application/query/get-products-by-id.query';
 import { CreateProductsCommand } from '@src/application/commands';
+import { UpdateProductsCommand } from "@src/application/commands/update-products.command";
+import { UpdateProductsDto } from "@src/domain/dtos";
+import { ProductsRespondDto } from "@src/domain/dtos/products-responde.dto";
 
 @Controller('products')
 export class ProductsController {
@@ -29,7 +31,7 @@ export class ProductsController {
   async create(
     @Body() createProductsDto: CreateProductsDto,
     @Req() req: Request,
-  ) {
+  ): Promise<Products> {
     const product = await this.commandBus.execute(
       new CreateProductsCommand(createProductsDto),
     );
@@ -38,11 +40,23 @@ export class ProductsController {
 
   @Get(':id')
   @ApiOkResponse({
+    type: ProductsRespondDto,
+  })
+  async get(
+    @Param('id') id: string,
+  ): Promise<ProductsRespondDto> {
+    return await this.queryBus.execute(new GetProductsByIdQuery(id));
+  }
+
+  @Put('update/:id')
+  @ApiBody({
+    description: 'Update products',
     type: CreateProductsDto,
   })
-  async get(@Param('id') id: string): Promise<IViewModel> {
-    const product = await this.queryBus.execute(new GetProductsByIdQuery(id));
-    console.log(product);
-    return product;
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductsDto: UpdateProductsDto,
+  ) {
+    return await this.commandBus.execute(new UpdateProductsCommand(id, updateProductsDto));
   }
 }

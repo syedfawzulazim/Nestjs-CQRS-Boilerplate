@@ -1,1 +1,1 @@
-
+This Nestjs backend application is being build following hexagonal-architecture (application, domain, infrastructure) and CQRS pattern for highly modular and testable codebase and improving performance and scalability.

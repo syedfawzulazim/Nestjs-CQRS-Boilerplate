@@ -1,6 +1,6 @@
 import { Products } from '@src/domain/models/products.model';
 import { CreateProductsDto } from '@src/domain/dtos/create-products.dto';
-import { Controller, Get, Param, Post, Req, Body, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, Body, Put, Delete } from "@nestjs/common";
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   ApiBody,
@@ -8,10 +8,11 @@ import {
   ApiCreatedResponse,
   ApiConflictResponse,
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { GetProductsByIdQuery } from '@src/application/query/get-products-by-id.query';
-import { CreateProductsCommand } from '@src/application/commands';
+import { CreateProductsCommand, DeleteProductsByIdCommand } from "@src/application/commands";
 import { UpdateProductsCommand } from "@src/application/commands/update-products.command";
 import { UpdateProductsDto } from "@src/domain/dtos";
 import { ProductsRespondDto } from "@src/domain/dtos/products-responde.dto";
@@ -51,12 +52,22 @@ export class ProductsController {
   @Put('update/:id')
   @ApiBody({
     description: 'Update products',
-    type: CreateProductsDto,
+    type: UpdateProductsDto,
   })
   async update(
     @Param('id') id: string,
     @Body() updateProductsDto: UpdateProductsDto,
   ) {
     return await this.commandBus.execute(new UpdateProductsCommand(id, updateProductsDto));
+  }
+
+  @Delete('delete/:id')
+  @ApiNotFoundResponse({
+    description: 'Product not found'
+  })
+  async delete(
+    @Param('id') id: string,
+  ){
+    return await this.commandBus.execute(( new DeleteProductsByIdCommand(id)));
   }
 }

@@ -31,4 +31,8 @@ export class ProductsOrmRepository implements IProductsRepository {
      ProductsEntity.fromModel(updateProductsDto),
     );
   }
+
+  async  delete(id: string): Promise<void> {
+    await this.manager.delete(ProductsEntity, id);
+  }
 }

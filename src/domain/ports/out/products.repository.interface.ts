@@ -5,6 +5,7 @@ import { UpdateProductsDto } from "@src/domain/dtos";
 export interface IProductsRepository {
   create(createProductsDto: CreateProductsDto): Promise<Products>;
   findOne(id: string): Promise<Products>;
+  find(): Promise<Products[]>;
   update(product: Products, updateProductsDto: UpdateProductsDto ): Promise<void>;
   delete(id: string): Promise<void>;
 }

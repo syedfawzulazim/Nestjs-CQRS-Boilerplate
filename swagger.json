@@ -41,7 +41,29 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "Api Endpoints"
+                ]
+            },
+            "get": {
+                "operationId": "ProductsController_getAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Products"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Api Endpoints"
+                ]
             }
         },
         "/products/{id}": {
@@ -68,7 +90,10 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "Api Endpoints"
+                ]
             }
         },
         "/products/update/{id}": {
@@ -106,7 +131,10 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "Api Endpoints"
+                ]
             }
         },
         "/products/delete/{id}": {
@@ -136,7 +164,10 @@
                     "404": {
                         "description": "Product not found"
                     }
-                }
+                },
+                "tags": [
+                    "Api Endpoints"
+                ]
             }
         }
     },

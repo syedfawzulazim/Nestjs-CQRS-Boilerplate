@@ -8,15 +8,17 @@ import {
   ApiCreatedResponse,
   ApiConflictResponse,
   ApiBadRequestResponse,
-  ApiNotFoundResponse,
-} from '@nestjs/swagger';
+  ApiNotFoundResponse, ApiTags
+} from "@nestjs/swagger";
 import { Request, Response } from 'express';
 import { GetProductsByIdQuery } from '@src/application/query/get-products-by-id.query';
 import { CreateProductsCommand, DeleteProductsByIdCommand } from "@src/application/commands";
 import { UpdateProductsCommand } from "@src/application/commands/update-products.command";
 import { UpdateProductsDto } from "@src/domain/dtos";
 import { ProductsRespondDto } from "@src/domain/dtos/products-responde.dto";
+import { GetAllProductsQuery } from "@src/application/query";
 
+@ApiTags('Api Endpoints')
 @Controller('products')
 export class ProductsController {
   constructor(
@@ -47,6 +49,14 @@ export class ProductsController {
     @Param('id') id: string,
   ): Promise<ProductsRespondDto> {
     return await this.queryBus.execute(new GetProductsByIdQuery(id));
+  }
+
+  @Get()
+  @ApiOkResponse({
+    type: Products,
+  })
+  async getAll(): Promise<Products[]> {
+    return await this.queryBus.execute(new GetAllProductsQuery());
   }
 
   @Put('update/:id')

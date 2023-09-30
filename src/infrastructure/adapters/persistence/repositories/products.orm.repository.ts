@@ -24,6 +24,11 @@ export class ProductsOrmRepository implements IProductsRepository {
     return productsEntity.toModel();
   }
 
+  async find(): Promise<Products[]> {
+    const productsEntities: ProductsEntity[] = await this.manager.find<ProductsEntity>(ProductsEntity);
+    return productsEntities.map(entity => entity.toModel());
+  }
+
   async update(product: Products, updateProductsDto: UpdateProductsDto): Promise<void> {
    await this.manager.update<ProductsEntity>(
      ProductsEntity,

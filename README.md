@@ -15,5 +15,10 @@ Run this application locally with a single command by docker-compose:
 ```
 docker-compose up -d --build
 ```
+Run migrations by Make file:
+```
+make dc-db-migrations
+```
+
 The application will be live at port: 3000
 and swagger at http://localhost:3000/docs/

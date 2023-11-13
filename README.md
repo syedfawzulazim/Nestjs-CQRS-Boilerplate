@@ -25,3 +25,4 @@ make dc-db-migrations
 
 The application will be live at port: 3000
 and swagger at http://localhost:3000/docs/
+DB: http://localhost:8081

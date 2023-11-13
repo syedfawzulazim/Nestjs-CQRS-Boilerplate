@@ -1,9 +1,10 @@
 import { ProductsEntity } from '@src/infrastructure/adapters/persistence/entities/products.entity';
 import { IProductsRepository } from '@src/domain/ports/out/products.repository.interface';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { CreateProductsDto, UpdateProductsDto } from "@src/domain/dtos";
 import { Products } from '@src/domain/models/products.model';
+import { ProductNotFoundException } from "@src/domain/exceptions/product.exceptions";
 
 @Injectable()
 export class ProductsOrmRepository implements IProductsRepository {
@@ -21,6 +22,10 @@ export class ProductsOrmRepository implements IProductsRepository {
 
   async findOne(id: string): Promise<Products> {
     const productsEntity = await this.manager.findOne(ProductsEntity, id);
+    if (!productsEntity) {
+      const message = `Could not find Product for Id: ${id}`;
+      throw new ProductNotFoundException(message);
+    }
     return productsEntity.toModel();
   }
 

@@ -7,15 +7,18 @@ for highly modular and testable codebase and improving performance and scalabili
 
 For running it locally: 
 
-Clone this repository:
+- Clone this repository:
 ```
 git clone https://github.com/syedfawzulazim/Nestjs-CQRS-Boilerplate.git
 ```
-Run this application locally with a single command by docker-compose: 
+
+- Create .env file as .env.dist file.
+
+- Run this application locally with a single command by docker-compose: 
 ```
 docker-compose up -d --build
 ```
-Run migrations by Make file:
+- Run migrations by Make file:
 ```
 make dc-db-migrations
 ```

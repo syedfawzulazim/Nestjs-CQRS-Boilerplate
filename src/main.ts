@@ -33,7 +33,7 @@ async function bootstrap(): Promise<INestApplication> {
   if (process.env.DATABASE_MIGRATION !== 'true') {
     await app.listen(process.env.PORT);
 
-    logger.log(`Application listening port: ${process.env.PORT}`);
+    logger.log(`Application listening ports: ${process.env.PORT}`);
   } else {
     logger.log('Close application due to migrations');
     await app.close();
